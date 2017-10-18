@@ -552,6 +552,7 @@ cpufreq_policy_apply_limits_fast(struct cpufreq_policy *policy)
 		ret = cpufreq_driver_fast_switch(policy, policy->min);
 
 	return ret;
+}
 
 /* Governor attribute set */
 struct gov_attr_set {
