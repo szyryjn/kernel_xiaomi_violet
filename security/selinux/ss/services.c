@@ -88,6 +88,28 @@ void selinux_ss_init(struct selinux_ss **ss)
 	*ss = &selinux_ss;
 }
 
+int selinux_android_netlink_route;
+int selinux_policycap_netpeer;
+int selinux_policycap_openperm;
+int selinux_policycap_extsockclass;
+int selinux_policycap_alwaysnetwork;
+int selinux_policycap_cgroupseclabel;
+int selinux_policycap_nnp_nosuid_transition;
+
+static DEFINE_RWLOCK(policy_rwlock);
+
+static struct sidtab sidtab;
+struct policydb policydb;
+int ss_initialized;
+
+/*
+ * The largest sequence number that has been used when
+ * providing an access decision to the access vector cache.
+ * The sequence number only changes when a policy change
+ * occurs.
+ */
+static u32 latest_granting;
+
 /* Forward declaration. */
 static int context_struct_to_string(struct policydb *policydb,
 				    struct context *context,
