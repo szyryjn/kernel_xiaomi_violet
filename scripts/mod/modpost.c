@@ -951,9 +951,14 @@ static const char *const data_sections[] = { DATA_SECTIONS, NULL };
 
 static const char *const head_sections[] = { ".head.text*", NULL };
 static const char *const linker_symbols[] =
-	{ "__init_begin", "_sinittext", "_einittext", NULL };
+    { "__init_begin", "_sinittext", "_einittext", NULL };
 static const char *const optim_symbols[] = { "*.constprop.*", NULL };
-
+static const char *const cfi_symbols[] = {
+    "__cfi_check",
+    "__cfi_slowpath",
+    "__cfi_slowpath_diag",
+    NULL
+};
 enum mismatch {
 	TEXT_TO_ANY_INIT,
 	DATA_TO_ANY_INIT,

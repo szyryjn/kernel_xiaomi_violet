@@ -89,12 +89,6 @@ void selinux_ss_init(struct selinux_ss **ss)
 }
 
 int selinux_android_netlink_route;
-int selinux_policycap_netpeer;
-int selinux_policycap_openperm;
-int selinux_policycap_extsockclass;
-int selinux_policycap_alwaysnetwork;
-int selinux_policycap_cgroupseclabel;
-int selinux_policycap_nnp_nosuid_transition;
 
 static DEFINE_RWLOCK(policy_rwlock);
 
