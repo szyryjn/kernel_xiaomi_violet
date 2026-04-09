@@ -272,6 +272,33 @@ config DEVFREQ_GOV_CDSPL3
 	  CDSP resource manager will use this governor to vote for L3 clock
 	  for IO-coherent traffic generated from CDSP
 
+config DEVFREQ_BOOST
+	bool "devfreq boost"
+	depends on PM_DEVFREQ
+	help
+	  Boost devfreq devices on input events and screen wake
+	  for better GPU and memory bus performance during UI rendering.
+
+config DEVFREQ_MSM_CPUBW_BOOST_FREQ
+	int "MSM CPUBW boost freq"
+	depends on DEVFREQ_BOOST
+	default 5765
+
+config DEVFREQ_MSM_LLCCBW_BOOST_FREQ
+	int "MSM LLCCBW boost freq"
+	depends on DEVFREQ_BOOST
+	default 5765
+
+config DEVFREQ_INPUT_BOOST_DURATION_MS
+	int "Devfreq input boost duration in ms"
+	depends on DEVFREQ_BOOST
+	default 64
+
+config DEVFREQ_WAKE_BOOST_DURATION_MS
+	int "Devfreq wake boost duration in ms"
+	depends on DEVFREQ_BOOST
+	default 1000
+
 source "drivers/devfreq/event/Kconfig"
 
 endif # PM_DEVFREQ
