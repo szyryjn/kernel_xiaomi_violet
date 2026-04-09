@@ -83,6 +83,8 @@ enum {
 
 extern const char *selinux_policycap_names[__POLICYDB_CAPABILITY_MAX];
 
+extern int selinux_android_netlink_route;
+
 /*
  * type_datum properties
  * available at the kernel policy version >= POLICYDB_VERSION_BOUNDARY

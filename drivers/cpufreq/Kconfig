@@ -400,5 +400,57 @@ config QORIQ_CPUFREQ
 	  This adds the CPUFreq driver support for Freescale QorIQ SoCs
 	  which are capable of changing the CPU's frequency dynamically.
 
+config CPU_INPUT_BOOST
+	bool "CPU input boost"
+	depends on CPU_FREQ
+	help
+	  Boost CPU frequencies on input events for better touch
+	  responsiveness and UI smoothness.
+
+config INPUT_BOOST_FREQ_LP
+	int "Input boost freq for little cluster"
+	depends on CPU_INPUT_BOOST
+	default 1113600
+
+config INPUT_BOOST_FREQ_PERF
+	int "Input boost freq for big cluster"
+	depends on CPU_INPUT_BOOST
+	default 1804800
+
+config MAX_BOOST_FREQ_LP
+	int "Max boost freq for little cluster"
+	depends on CPU_INPUT_BOOST
+	default 1401600
+
+config MAX_BOOST_FREQ_PERF
+	int "Max boost freq for big cluster"
+	depends on CPU_INPUT_BOOST
+	default 2016000
+
+config MIN_FREQ_LP
+	int "Min freq for little cluster"
+	depends on CPU_INPUT_BOOST
+	default 633600
+
+config MIN_FREQ_PERF
+	int "Min freq for big cluster"
+	depends on CPU_INPUT_BOOST
+	default 1113600
+
+config INPUT_BOOST_DURATION_MS
+	int "Input boost duration in ms"
+	depends on CPU_INPUT_BOOST
+	default 64
+
+config MAX_BOOST_DURATION_MS
+	int "Max boost duration in ms"
+	depends on CPU_INPUT_BOOST
+	default 0
+
+config WAKE_BOOST_DURATION_MS
+	int "Wake boost duration in ms"
+	depends on CPU_INPUT_BOOST
+	default 1000
+
 endif
 endmenu

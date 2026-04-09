@@ -512,6 +512,7 @@ static unsigned int sugov_next_freq_shared(struct sugov_cpu *sg_cpu, u64 time)
 			j_sg_cpu->iowait_boost_pending = false;
 			continue;
 		}
+
 		if (j_sg_cpu->flags & SCHED_CPUFREQ_DL) {
 			/* clear cache when it's bypassed */
 			sg_policy->cached_raw_freq = 0;
@@ -551,6 +552,8 @@ static void sugov_update_shared(struct update_util_data *hook, u64 time,
 		return;
 
 	sugov_get_util(&util, &max, sg_cpu->cpu, time);
+
+	flags &= ~SCHED_CPUFREQ_RT_DL;
 
 	flags &= ~SCHED_CPUFREQ_RT_DL;
 
@@ -1099,6 +1102,7 @@ static void sugov_limits(struct cpufreq_policy *policy)
 	struct sugov_policy *sg_policy = policy->governor_data;
 	unsigned long flags;
 	unsigned int ret;
+	int cpu;
 
 	if (!policy->fast_switch_enabled) {
 		mutex_lock(&sg_policy->work_lock);
@@ -1112,10 +1116,14 @@ static void sugov_limits(struct cpufreq_policy *policy)
 		raw_spin_lock_irqsave(&sg_policy->update_lock, flags);
 		sugov_track_cycles(sg_policy, sg_policy->policy->cur,
 				   ktime_get_ns());
+
 		ret = cpufreq_policy_apply_limits_fast(policy);
 		if (ret && policy->cur != ret) {
 			policy->cur = ret;
+			for_each_cpu(cpu, policy->cpus)
+				trace_cpu_frequency(ret, cpu);
 		}
+
 		raw_spin_unlock_irqrestore(&sg_policy->update_lock, flags);
 	}
 
